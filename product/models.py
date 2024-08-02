@@ -1,9 +1,10 @@
 from django.db import models
 from authen.models import User
 from config.settings import NULLABLE
+from libs import TruncateTableMixin
 
 
-class Category(models.Model):
+class Category(TruncateTableMixin, models.Model):
     name = models.CharField(max_length=100, verbose_name='Имя')
     description = models.CharField(max_length=256, verbose_name='Описание', **NULLABLE)
     is_active = models.BooleanField(default=True, verbose_name='Активен')
@@ -17,7 +18,7 @@ class Category(models.Model):
         ordering = ('name',)
 
 
-class Product(models.Model):
+class Product(TruncateTableMixin, models.Model):
     name = models.CharField(max_length=100, verbose_name='Имя')
     is_published = models.BooleanField(verbose_name='Опубликован', default=False)
     description = models.TextField(verbose_name='Описание', **NULLABLE)
@@ -58,7 +59,7 @@ class Product(models.Model):
         ]
 
 
-class ProductVersion(models.Model):
+class ProductVersion(TruncateTableMixin, models.Model):
     name = models.CharField(verbose_name="Название", max_length=256, default="стандарт")
     number = models.PositiveIntegerField(verbose_name="Номер")
     product = models.ForeignKey(
