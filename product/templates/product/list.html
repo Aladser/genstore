@@ -24,7 +24,6 @@
                   {% endif %}
                   <h5 class="card-title">{{prd.name|product_version:prd.current_version}}</h5>
                   <p class="card-text fst-italic text-secondary">{{prd.creator|author|safe}}</p>
-                  <p class="card-text">{{prd.category}}</p>
                   <p class="card-text">{{prd.price|price}}</p>
               </div>
               <a href="{% url 'product:detail' prd.pk %}" class="btn btn-primary w-50 mb-1 mx-auto mb-3">Подробнее</a>
