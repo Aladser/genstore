@@ -12,19 +12,21 @@
     <div class="d-flex mb-3">
         {%for prd in object_list %}
         <div class="card" style="width: 18rem;">
-          <img src="{{prd.ava|full_image_path}}" class='card-img-top h-50 img-fluid mb-3 p-2' alt="{{prd.name}}">
-          <div>
-                {% if prd.is_published %}
-                  <p class="card-text status-publication text-success">Опубликован</p>
-                {% else %}
-                  <p class="card-text status-publication text-danger">Не опубликован</p>
-                {% endif %}
-
-                <h5 class="card-title">{{prd.name|product_version:prd.current_version}}</h5>
-                <p class="card-text fst-italic text-secondary">{{prd.creator|author|safe}}</p>
-                <p class="card-text">{{prd.category}}</p>
-                <p class="card-text">{{prd.price|price}}</p>
-                <a href="{% url 'product:detail' prd.pk %}" class="btn btn-primary w-50 mb-1">Подробнее</a>
+          <div class="h-50">
+              <img src="{{prd.ava|full_image_path}}" class='card-img-top img-fluid mb-3 p-2 h-100' alt="{{prd.name}}">
+          </div>
+          <div class="h-50 d-flex flex-column justify-content-between">
+              <div class="px-2">
+                  {% if prd.is_published %}
+                    <p class="card-text status-publication text-success">Опубликован</p>
+                  {% else %}
+                    <p class="card-text status-publication text-danger">Не опубликован</p>
+                  {% endif %}
+                  <h5 class="card-title">{{prd.name|product_version:prd.current_version}}</h5>
+                  <p class="card-text fst-italic text-secondary">{{prd.creator|author|safe}}</p>
+                  <p class="card-text">{{prd.price|price}}</p>
+              </div>
+              <a href="{% url 'product:detail' prd.pk %}" class="btn btn-primary w-50 mb-1 mx-auto mb-3">Подробнее</a>
           </div>
         </div>
         {% endfor %}

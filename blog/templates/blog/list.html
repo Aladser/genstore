@@ -21,7 +21,6 @@
 
     <table class="table w-75 mx-auto">
         <tr>
-            <th>SLUG</th>
             <th>Название</th>
             <th>Просмотров</th>
             <th>Создан</th>
@@ -29,7 +28,6 @@
         </tr>
         {%for blog in object_list %}
         <tr>
-            <td>{{blog.slug}}</td>
             <td><a href="{% url 'blog:detail' blog.id %}" class="link-underline-dark text-black link-offset-2 link-underline-opacity-50">{{blog.name}}</a> </td>
             <td>{{blog.views_count}}</td>
             <td>{{ blog.created_at|format_datetime }}</td>

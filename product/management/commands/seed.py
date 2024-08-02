@@ -1,16 +1,17 @@
 from django.core.management import BaseCommand
 
 from blog.models import Blog
-from product.models import Category, Product
+from product.models import Category, Product, ProductVersion
 
 
 class Command(BaseCommand):
     # Категории
     category_list = [
-        {'pk': 1, 'name': 'автомобили'},
-        {'pk': 2, 'name': 'бытовая химия'},
-        {'pk': 3, 'name': 'продукты'},
+        {'name': 'автомобили'},
+        {'name': 'бытовая химия'},
+        {'name': 'продукты'},
     ]
+
     # Товары
     product_list = [
         {
@@ -61,18 +62,11 @@ class Command(BaseCommand):
             'ava': 'img/products/bread.png'
         },
     ]
-    # контакты
-    contacts_list = [
-        {'pk': 1, 'name': 'Помидоркин', 'number': 10000001, 'address': 'Москва'},
-        {'pk': 2, 'name': 'Птичкин', 'number': 10000002, 'address': 'Питер'},
-        {'pk': 3, 'name': 'Светлов', 'number': 10000003, 'address': 'Тверь'},
-        {'pk': 4, 'name': 'Губкина', 'number': 10000004, 'address': 'Новосибирск'},
-        {'pk': 5, 'name': 'Аксенова', 'number': 10000005, 'address': 'Иркутск'},
-    ]
 
     def handle(self, *args, **kwargs):
-        Product.objects.all().delete()
-        Category.objects.all().delete()
+        ProductVersion.truncate()
+        Product.truncate()
+        Category.truncate()
 
         category_create_list = [Category(**ctg) for ctg in self.category_list]
         Category.objects.bulk_create(category_create_list)
