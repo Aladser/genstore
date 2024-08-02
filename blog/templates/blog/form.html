@@ -1,0 +1,23 @@
+{% extends 'basic.html' %}
+
+{% block content %}
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <div class="w-75 mx-auto">
+            <form method="post" enctype="multipart/form-data" class="form-floating">
+                {% if object %}
+                <p><span class="fw-bold">slug: </span> {{object.slug}}</p>
+                {% endif %}
+
+                {% csrf_token %}
+                {{ form.as_p }}
+
+                {% if object %}
+                <button type="submit" class="btn btn-lg btn-block btn-outline-primary w-25 me-1">Сохранить</button>
+                <a href="{% url 'blog:detail' object.id %}" class="btn btn-lg btn-block btn-outline-primary w-25">Отмена</a>
+                {% else %}
+                <button type="submit" class="btn btn-lg btn-block btn-outline-primary">Создать</button>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+{% endblock %}

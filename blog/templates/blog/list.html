@@ -1,0 +1,41 @@
+{% extends 'basic.html' %}
+{% load custom_tags %}
+
+{% block content %}
+<div class="row text-center">
+    <div class="mb-4 d-flex justify-content-between w-75 mx-auto">
+        {% if user.is_authenticated %}
+        <a href="{% url 'blog:create' %}" class="btn btn-lg btn-block btn-outline-primary">Добавить блог</a>
+        {% endif %}
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            Публикация
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li><a class="dropdown-item" href="{% url 'blog:list'%}?type=publish">Да</a></li>
+            <li><a class="dropdown-item" href="{% url 'blog:list'%}?type=non-publish">Нет</a></li>
+            <li><a class="dropdown-item" href="{% url 'blog:list' %}">Все</a></li>
+          </ul>
+        </div>
+    </div>
+
+    <table class="table w-75 mx-auto">
+        <tr>
+            <th>SLUG</th>
+            <th>Название</th>
+            <th>Просмотров</th>
+            <th>Создан</th>
+            <th>Опубликован</th>
+        </tr>
+        {%for blog in object_list %}
+        <tr>
+            <td>{{blog.slug}}</td>
+            <td><a href="{% url 'blog:detail' blog.id %}" class="link-underline-dark text-black link-offset-2 link-underline-opacity-50">{{blog.name}}</a> </td>
+            <td>{{blog.views_count}}</td>
+            <td>{{ blog.created_at|format_datetime }}</td>
+            <td class="text-success">{{ blog.is_published|is_published|safe }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

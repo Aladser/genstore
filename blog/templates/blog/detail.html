@@ -1,0 +1,36 @@
+{% extends 'basic.html' %}
+{% load custom_tags %}
+
+{% block content %}
+
+    <div class="pricing-header px-3 mx-auto text-center">
+        <div class="w-75 mx-auto">
+            <div class="w-25 mx-auto mb-2">
+                <img class="img-fluid" src="{{object.preview_image|full_image_path}}" alt="{{object.name}}">
+            </div>
+            <div class="border-top border-bottom p-3 mb-3 w-50 mx-auto">{{object.content}}</div>
+            <div><span class="fw-bolder">slug: </span> {{object.slug}}</div>
+            <div><span class="fw-bolder">Создан: </span> {{object.created_at|format_datetime}}</div>
+            <div class="mb-1"><span class="fw-bolder">Просмотров: </span> {{object.views_count}}</div>
+            <div class="mb-3"><span class="fw-bolder">Статус публикации: </span> {{object.is_published|is_published|safe}}</div>
+
+            <div class="w-50 mx-auto flex">
+                {% if perms.blog.set_publication %}
+                <form method="post" action="{% url 'blog:blog_publish' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="pk" value={{object.pk}}>
+                    <input type="hidden" name="state" value={{object.is_published}}>
+                    {% if user.is_authenticated %}
+                        <button type="submit" class="btn btn-primary w-50 mb-1">{{object.is_published|publish_action}}</button>
+                    {% endif %}
+                </form>
+                {% endif %}
+
+                {% if user.is_authenticated %}
+                    <a href="{% url 'blog:edit' object.id %}" class="btn btn-primary w-50 mb-1">Изменить</a>
+                    <a href="{% url 'blog:delete' object.id %}" class="btn btn-primary w-50 mb-1">Удалить</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
