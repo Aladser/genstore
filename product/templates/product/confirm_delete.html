@@ -8,11 +8,11 @@
                     <form method="post">
                         {% csrf_token %}
                         <p>Действительно хотите удалить товар?</p>
-                        <button type="submit" class="btn btn-danger btn-theme-width-10">Подтвердить</button>
+                        <button type="submit" class="btn btn-primary btn-theme-width-10">Подтвердить</button>
                         {% if back == 'detail'%}
-                            <a href="{% url 'product:detail' object.pk %}" class="btn btn-warning btn-theme-width-10">Отмена</a>
+                            <a href="{% url 'product:detail' object.pk %}" class="btn btn-primary btn-theme-width-10">Отмена</a>
                         {% else %}
-                            <a href="{% url 'product:list' %}" class="btn btn-warning btn-theme-width-10">Отмена</a>
+                            <a href="{% url 'product:list' %}" class="btn btn-primary btn-theme-width-10">Отмена</a>
                         {% endif %}
                     </form>
                 </div>
