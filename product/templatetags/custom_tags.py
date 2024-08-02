@@ -47,7 +47,7 @@ def publish_action(value):
 
 @register.filter()
 def product_version(value, version):
-    return f"{value} версии {version}" if version else value
+    return f"{value} {version}" if version else value
 
 
 @register.filter()
