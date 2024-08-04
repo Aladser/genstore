@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from blog.models import Blog
-from libs import CustomFormatter
+from libs.custom_formatter import CustomFormatter
 
 
 class BlogForm(ModelForm):

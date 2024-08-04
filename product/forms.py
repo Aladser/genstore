@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 
-from libs import CustomFormatter
+from libs.custom_formatter import CustomFormatter
 from product.models import Product, ProductVersion
 
 
