@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from config import env
+from libs.env import env
 
 APP_NAME = 'GenStore'
 BASE_DIR = Path(__file__).resolve().parent.parent

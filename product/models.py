@@ -1,7 +1,7 @@
 from django.db import models
 from authen.models import User
 from config.settings import NULLABLE
-from libs import TruncateTableMixin
+from libs.truncate_table_mixin import TruncateTableMixin
 
 
 class Category(TruncateTableMixin, models.Model):

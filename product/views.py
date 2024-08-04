@@ -1,13 +1,10 @@
 from django.contrib.auth.models import AnonymousUser
 from django.forms import inlineformset_factory
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
-from django.views.generic import DeleteView
-from django.views.generic import DetailView
-from django.views.generic import ListView
-from django.views.generic import UpdateView
+from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
-from libs import CustomLoginRequiredMixin, CustomFormatter
+from libs.custom_formatter import CustomFormatter
+from libs.login_required_mixin import CustomLoginRequiredMixin
 from product.forms import ProductForm, ProductVersionForm
 from product.models import Product, ProductVersion
 
