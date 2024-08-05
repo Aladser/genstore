@@ -28,7 +28,7 @@ while True:
                         continue
             break
         else:
-            raise FileNotFoundError("Файл .env не найден. Создайте файл .env. Пример файла - .env.example")
+            raise FileNotFoundError("Файл .env не найден. Создайте файл .env (пример файла - .env.example")
     else:
         # защита, если что-то пошло не так
         if immersion > 3:
