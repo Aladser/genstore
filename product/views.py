@@ -1,8 +1,10 @@
 from django.contrib.auth.models import AnonymousUser
+from django.core.cache import cache
 from django.forms import inlineformset_factory
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
+from config.settings import CACHED_TIME
 from libs.custom_formatter import CustomFormatter
 from libs.login_required_mixin import CustomLoginRequiredMixin
 from product.forms import ProductForm, ProductVersionForm
@@ -47,6 +49,17 @@ class ProductDetailView(DetailView):
         "section": "Товары",
         'css_list': ("publication.css",)
     }
+
+    def get_object(self, queryset=None):
+        # Кэширование товара для всех пользователей
+        product_cache_key = f'product_detail_{self.kwargs["pk"]}'
+        product = cache.get(product_cache_key)
+
+        if product is None:
+            product = super().get_object(queryset)
+            cache.set(product_cache_key, product, CACHED_TIME)
+
+        return product
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

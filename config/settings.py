@@ -119,14 +119,14 @@ AUTH_USER_MODEL = "authen.User"
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
-CACHES = {
-    "default": {
-        "BACKEND": "django.core.cache.backends.redis.RedisCache",
-        "LOCATION": env('CACHES_LOCATION'),
-        "TIMEOUT": 300
-    }
-}
-
-CACHED_ENABLED = False
+CACHED_ENABLED = True
+CACHED_TIME = 180
 if CACHED_ENABLED:
-    pass
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.redis.RedisCache",
+            "LOCATION": env('CACHES_LOCATION'),
+            "TIMEOUT": CACHED_TIME
+        }
+    }
+
