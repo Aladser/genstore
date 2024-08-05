@@ -1,10 +1,6 @@
 import os.path
 from pathlib import Path
 
-"""
-    Конфигурационный файл в корне проекта
-    Погружение не более 3 уровней вверх от корневой папки
-"""
 param_list = {}
 """словарь ключей"""
 
@@ -14,9 +10,12 @@ root_dir = Path(__file__).resolve().parent
 dir_start = str(root_dir)
 
 while True:
-    if os.path.isfile(str(root_dir.resolve()) + '/manage.py'):
+    if os.path.isfile(str(root_dir) + '/manage.py'):
         # поиск корневой папки конфиг.файла
+
+        # конфигурационный файл
         config_file = str(root_dir) + '/.env'
+
         if os.path.isfile(config_file):
             # поиск конфиг.файла
             with open(config_file) as file:
@@ -40,7 +39,8 @@ while True:
 
 
 def env(param: str):
-    """Извлекает значение параметра"""
+    """Извлекает значение параметра конфигурационный файла"""
+
     if param in param_list:
         return param_list[param]
     else:
