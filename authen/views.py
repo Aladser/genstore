@@ -1,7 +1,7 @@
 from secrets import token_hex
 from urllib.request import Request
 
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
 from django.core.mail import send_mail
 from django.http import HttpResponse
@@ -118,3 +118,6 @@ class CustomUserPasswordResetConfirmView(PasswordResetConfirmView):
     form_class = CustomSetPasswordForm
     success_url = reverse_lazy('authen:password_reset_complete')
 
+
+class CustomLogoutView(LogoutView):
+    pass
