@@ -51,23 +51,33 @@ class ProductDetailView(DetailView):
         'css_list': ("publication.css",)
     }
 
+    def get(self, request, *args, **kwargs):
+        # больше контроля над кэшем представления
+        if not CACHED_ENABLED or self.request.user != cache.get('auth_user'):
+            return super().get(request, *args, **kwargs)
+
+        cache_key = f"product_detail_{kwargs['pk']}_render"
+        cache_data = cache.get(cache_key)
+        if cache_data is not None:
+            return cache_data
+
+        return super().get(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = context['header'] = f"товар {self.object.name}"
 
         return context
 
-    # отрисовка шаблона
     def render_to_response(self, context, **response_kwargs):
         if not CACHED_ENABLED:
             return super().render_to_response(context, **response_kwargs)
 
-        cache_key = f"product_detail_{context['object'].pk}_render"
-        cache_data = cache.get(cache_key)
-
-        if cache_data is None:
-            cache_data = render(self.request, self.template_name, context)
-            cache.set(cache_key, cache_data)
+        # создается новый кэш представления
+        cache.set('auth_user', self.request.user)
+        cache_view_key = f"product_detail_{context['object'].pk}_render"
+        cache_data = render(self.request, self.template_name, context)
+        cache.set(cache_view_key, cache_data)
 
         return cache_data
 
