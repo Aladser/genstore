@@ -117,7 +117,3 @@ class CustomUserPasswordResetConfirmView(PasswordResetConfirmView):
     template_name = 'password_reset_confirm.html'
     form_class = CustomSetPasswordForm
     success_url = reverse_lazy('authen:password_reset_complete')
-
-
-class CustomLogoutView(LogoutView):
-    pass
