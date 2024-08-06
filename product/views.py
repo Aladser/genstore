@@ -10,7 +10,7 @@ from libs.custom_formatter import CustomFormatter
 from libs.login_required_mixin import CustomLoginRequiredMixin
 from product.forms import ProductForm, ProductVersionForm
 from product.models import Product, ProductVersion, Category
-from product.services import get_categories_from_cache
+from product.services import get_object_list_from_cache
 
 
 # ----- PRODUCT LIST -----
@@ -28,7 +28,8 @@ class ProductListView(ListView):
     }
 
     def get_queryset(self, *args, **kwargs):
-        queryset = super().get_queryset(*args, **kwargs)
+        queryset = get_object_list_from_cache(self.model, 'product_list')
+        print(queryset)
         if isinstance(self.request.user, AnonymousUser):
             # анонимы
             return queryset.filter(is_published=True).order_by('-updated_at')
@@ -75,11 +76,10 @@ class ProductDetailView(DetailView):
         anonym_user = 'AnonymousUser'
         if str(self.request.user) == anonym_user:
             cache.set('auth_user', anonym_user)
-            cache_product_key = f"product_detail_{context['object'].pk}_render"
         else:
             cache.set('auth_user', str(self.request.user))
-            cache_product_key = f"product_detail_{context['object'].pk}_render"
 
+        cache_product_key = f"product_detail_{context['object'].pk}_render"
         cache_data = render(self.request, self.template_name, context)
         cache.set(cache_product_key, cache_data)
 
@@ -212,5 +212,5 @@ class CategoryListView(ListView):
     }
 
     def get_queryset(self, *args, **kwargs):
-        return get_categories_from_cache()
+        return get_object_list_from_cache(Category, 'category_list')
 

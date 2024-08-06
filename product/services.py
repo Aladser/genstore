@@ -1,14 +1,16 @@
 from django.core.cache import cache
 
-from product.models import Category
 
+def get_object_list_from_cache(model, key_name: str):
+    """Возвращает список элеменетов таблицы БД
+        :param model: модель
+        :param key_name: ключ кэша
+    """
 
-def get_categories_from_cache():
-    """Возвращает список категорий из кэша"""
+    object_list = cache.get(key_name)
+    print(object_list)
+    if object_list is None:
+        object_list = model.objects.all()
+        cache.set(key_name, object_list)
 
-    category_list = cache.get('category_list')
-    if category_list is None:
-        category_list = Category.objects.all()
-        cache.set('category_list', category_list)
-
-    return category_list
+    return object_list
