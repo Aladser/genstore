@@ -9,15 +9,13 @@ immersion = 1
 root_dir = Path(__file__).resolve().parent
 dir_start = str(root_dir)
 
+# поиск корневой папки конфиг.файла
 while True:
     if os.path.isfile(str(root_dir) + '/manage.py'):
-        # поиск корневой папки конфиг.файла
-
-        # конфигурационный файл
         config_file = str(root_dir) + '/.env'
 
+        # поиск конфиг.файла
         if os.path.isfile(config_file):
-            # поиск конфиг.файла
             with open(config_file) as file:
                 # чтение параметров конфиг.файла
                 for line in file:
@@ -30,7 +28,7 @@ while True:
         else:
             raise FileNotFoundError("Файл .env не найден. Создайте файл .env (пример файла - .env.example")
     else:
-        # защита, если что-то пошло не так
+        # защита от бесконечного цикла
         if immersion > 3:
             raise FileNotFoundError(f"Файл .env не найден. Начало поиска - {dir_start}")
         immersion += 1

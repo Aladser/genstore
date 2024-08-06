@@ -12,10 +12,12 @@
         <nav class="ms-5">
             {% if section %}
                  <a class="p-2" href="{% url 'product:list' %}">{{"Товары"|top_menu_elem:section|safe}}</a>
+                 <a class="p-2" href="{% url 'product:category_list' %}">{{"Категории"|top_menu_elem:section|safe}}</a>
                  <a class="p-2" href="{% url 'blog:list' %}">{{"Блоги"|top_menu_elem:section|safe}}</a>
             {% else %}
                 <a class="p-2" href="{% url 'product:list' %}">Товары</a>
-                 <a class="p-2" href="{% url 'blog:list' %}">Блоги</a>
+                <a class="p-2" href="{% url 'product:category_list' %}">Категории</a>
+                <a class="p-2" href="{% url 'blog:list' %}">Блоги</a>
             {% endif %}
         </nav>
     </div>

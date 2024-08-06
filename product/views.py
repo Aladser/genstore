@@ -9,13 +9,12 @@ from config.settings import CACHED_TIME, CACHED_ENABLED
 from libs.custom_formatter import CustomFormatter
 from libs.login_required_mixin import CustomLoginRequiredMixin
 from product.forms import ProductForm, ProductVersionForm
-from product.models import Product, ProductVersion
+from product.models import Product, ProductVersion, Category
+from product.services import get_object_list_from_cache
 
 
-# ----- LIST -----
+# ----- PRODUCT LIST -----
 class ProductListView(ListView):
-    """LIST"""
-
     paginate_by = 5
     model = Product
     template_name = 'product/list.html'
@@ -29,7 +28,8 @@ class ProductListView(ListView):
     }
 
     def get_queryset(self, *args, **kwargs):
-        queryset = super().get_queryset(*args, **kwargs)
+        queryset = get_object_list_from_cache(self.model, 'product_list')
+        print(queryset)
         if isinstance(self.request.user, AnonymousUser):
             # анонимы
             return queryset.filter(is_published=True).order_by('-updated_at')
@@ -41,7 +41,7 @@ class ProductListView(ListView):
             return queryset.filter(creator=self.request.user).union(queryset.filter(is_published=True)).order_by('-updated_at')
 
 
-# ----- SHOW -----
+# ----- PRODUCT SHOW -----
 class ProductDetailView(DetailView):
     model = Product
     template_name = 'product/detail.html'
@@ -76,21 +76,18 @@ class ProductDetailView(DetailView):
         anonym_user = 'AnonymousUser'
         if str(self.request.user) == anonym_user:
             cache.set('auth_user', anonym_user)
-            cache_product_key = f"product_detail_{context['object'].pk}_render"
         else:
             cache.set('auth_user', str(self.request.user))
-            cache_product_key = f"product_detail_{context['object'].pk}_render"
 
+        cache_product_key = f"product_detail_{context['object'].pk}_render"
         cache_data = render(self.request, self.template_name, context)
         cache.set(cache_product_key, cache_data)
 
         return cache_data
 
 
-# ----- CREATE -----
+# ----- PRODUCT CREATE -----
 class ProductCreateView(CustomLoginRequiredMixin, CreateView):
-    """CREATE"""
-
     template_name = 'product/form.html'
     model = Product
     form_class = ProductForm
@@ -121,9 +118,8 @@ class ProductCreateView(CustomLoginRequiredMixin, CreateView):
         return reverse_lazy("product:detail", kwargs={"pk": self.object.pk})
 
 
+# ----- PRODUCT UPDATE -----
 class ProductUpdateView(CustomLoginRequiredMixin, UpdateView):
-    """UPDATE"""
-
     template_name = 'product/form.html'
     model = Product
     form_class = ProductForm
@@ -181,9 +177,8 @@ class ProductUpdateView(CustomLoginRequiredMixin, UpdateView):
         return reverse_lazy("product:detail", kwargs={"pk": self.object.pk})
 
 
+# ----- PRODUCT DELETE -----
 class ProductDeleteView(CustomLoginRequiredMixin, DeleteView):
-    """DELETE"""
-
     model = Product
     template_name = 'product/confirm_delete.html'
     success_url = reverse_lazy('product:list')
@@ -202,3 +197,20 @@ class ProductDeleteView(CustomLoginRequiredMixin, DeleteView):
         context['header'] = context['title'] = f"удаление товара {self.object.name}"
 
         return context
+
+
+# ----- CATEGORY LIST -----
+class CategoryListView(ListView):
+    model = Category
+    template_name = 'category_list.html'
+
+    title = 'категории'
+    extra_context = {
+        'section': title.title(),
+        'header': title,
+        'title': title
+    }
+
+    def get_queryset(self, *args, **kwargs):
+        return get_object_list_from_cache(Category, 'category_list')
+
