@@ -52,8 +52,7 @@ class ProductDetailView(DetailView):
     }
 
     def get(self, request, *args, **kwargs):
-        # больше контроля над кэшем представления
-        if not CACHED_ENABLED or self.request.user != cache.get('auth_user'):
+        if not CACHED_ENABLED or str(self.request.user) != cache.get('auth_user'):
             return super().get(request, *args, **kwargs)
 
         cache_key = f"product_detail_{kwargs['pk']}_render"
@@ -73,11 +72,17 @@ class ProductDetailView(DetailView):
         if not CACHED_ENABLED:
             return super().render_to_response(context, **response_kwargs)
 
-        # создается новый кэш представления
-        cache.set('auth_user', self.request.user)
-        cache_view_key = f"product_detail_{context['object'].pk}_render"
+        # создается новый кэш
+        anonym_user = 'AnonymousUser'
+        if str(self.request.user) == anonym_user:
+            cache.set('auth_user', anonym_user)
+            cache_product_key = f"product_detail_{context['object'].pk}_render"
+        else:
+            cache.set('auth_user', str(self.request.user))
+            cache_product_key = f"product_detail_{context['object'].pk}_render"
+
         cache_data = render(self.request, self.template_name, context)
-        cache.set(cache_view_key, cache_data)
+        cache.set(cache_product_key, cache_data)
 
         return cache_data
 
