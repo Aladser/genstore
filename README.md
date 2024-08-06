@@ -44,4 +44,3 @@
 #### Кэширование
 + ``product.views.ProductDetailView`` - на уровне представления
 + ``product.services.get_object_list_from_cache`` - запросы списка элементов модели
-+ ``libs.env.env()`` - функция чтения конфигурационного файла .env
