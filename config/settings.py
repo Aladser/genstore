@@ -118,3 +118,15 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 AUTH_USER_MODEL = "authen.User"
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+CACHED_ENABLED = True
+CACHED_TIME = 180
+if CACHED_ENABLED:
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.redis.RedisCache",
+            "LOCATION": env('CACHES_LOCATION'),
+            "TIMEOUT": CACHED_TIME
+        }
+    }
+

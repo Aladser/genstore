@@ -1,14 +1,18 @@
 from django.contrib.auth.models import AnonymousUser
+from django.core.cache import cache
 from django.forms import inlineformset_factory
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 
+from config.settings import CACHED_TIME, CACHED_ENABLED
 from libs.custom_formatter import CustomFormatter
 from libs.login_required_mixin import CustomLoginRequiredMixin
 from product.forms import ProductForm, ProductVersionForm
 from product.models import Product, ProductVersion
 
 
+# ----- LIST -----
 class ProductListView(ListView):
     """LIST"""
 
@@ -37,9 +41,8 @@ class ProductListView(ListView):
             return queryset.filter(creator=self.request.user).union(queryset.filter(is_published=True)).order_by('-updated_at')
 
 
+# ----- SHOW -----
 class ProductDetailView(DetailView):
-    """SHOW"""
-
     model = Product
     template_name = 'product/detail.html'
 
@@ -48,13 +51,43 @@ class ProductDetailView(DetailView):
         'css_list': ("publication.css",)
     }
 
+    def get(self, request, *args, **kwargs):
+        if not CACHED_ENABLED or str(self.request.user) != cache.get('auth_user'):
+            return super().get(request, *args, **kwargs)
+
+        cache_key = f"product_detail_{kwargs['pk']}_render"
+        cache_data = cache.get(cache_key)
+        if cache_data is not None:
+            return cache_data
+
+        return super().get(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = context['header'] = f"товар {self.object.name}"
 
         return context
 
+    def render_to_response(self, context, **response_kwargs):
+        if not CACHED_ENABLED:
+            return super().render_to_response(context, **response_kwargs)
 
+        # создается новый кэш
+        anonym_user = 'AnonymousUser'
+        if str(self.request.user) == anonym_user:
+            cache.set('auth_user', anonym_user)
+            cache_product_key = f"product_detail_{context['object'].pk}_render"
+        else:
+            cache.set('auth_user', str(self.request.user))
+            cache_product_key = f"product_detail_{context['object'].pk}_render"
+
+        cache_data = render(self.request, self.template_name, context)
+        cache.set(cache_product_key, cache_data)
+
+        return cache_data
+
+
+# ----- CREATE -----
 class ProductCreateView(CustomLoginRequiredMixin, CreateView):
     """CREATE"""
 

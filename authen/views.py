@@ -1,8 +1,9 @@
 from secrets import token_hex
 from urllib.request import Request
 
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.views import PasswordResetView, PasswordResetConfirmView
+from django.core.cache import cache
 from django.core.mail import send_mail
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -11,7 +12,7 @@ from django.views.generic import CreateView, UpdateView
 
 from authen.forms import RegisterForm, AuthForm, ProfileForm, CustomPasswordResetForm, CustomSetPasswordForm
 from authen.models import User
-from config.settings import APP_NAME, EMAIL_HOST_USER
+from config.settings import APP_NAME, EMAIL_HOST_USER, CACHED_ENABLED
 
 
 # АВТОРИЗАЦИЯ
@@ -25,7 +26,6 @@ class UserLoginView(LoginView):
         'header': title.title(),
         'title': title
     }
-
 
 # РЕГИСТРАЦИЯ
 class RegisterView(CreateView):
