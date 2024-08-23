@@ -142,7 +142,7 @@ class ProductUpdateView(CustomLoginRequiredMixin, UpdateView):
         context['form_btn_name'] = 'Сохранить'
         context['required_fields'] = CustomFormatter.get_form_required_field_labels(context['form'])
 
-        # версия товара
+        # версия товара - FORMSET
         ProductVersionFormset = inlineformset_factory(Product, ProductVersion, form=ProductVersionForm, extra=1)
         if self.request.method == "POST":
             context['formset'] = ProductVersionFormset(self.request.POST, instance=self.object)

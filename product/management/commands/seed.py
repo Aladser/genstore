@@ -1,8 +1,9 @@
 from django.core.management import BaseCommand
 
 from blog.models import Blog
+from libs.seeding import Seeding
 from product.models import Category, Product, ProductVersion
-
+from pytils.translit import slugify
 
 class Command(BaseCommand):
     # Категории
@@ -65,21 +66,12 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         ProductVersion.truncate()
-        Product.truncate()
-        Category.truncate()
-
-        category_create_list = [Category(**ctg) for ctg in self.category_list]
-        Category.objects.bulk_create(category_create_list)
-
-        product_create_list = [Product(**prd) for prd in self.product_list]
-        Product.objects.bulk_create(product_create_list)
+        Seeding.seed_table(Category, self.category_list)
+        Seeding.seed_table(Product, self.product_list)
 
         # блоги
         blog_list = []
         for i in range(5):
             name = f"Блог {i + 1}"
-            blog_list.append({'name': name, 'slug': f"blog_{i + 1}", 'content': ' '.join([name] * 5)})
-
-        Blog.objects.all().delete()
-        blog_create_list = [Blog(**blog) for blog in blog_list]
-        Blog.objects.bulk_create(blog_create_list)
+            blog_list.append({'name': name, 'slug': slugify(name), 'content': ' '.join([name] * 5)})
+        Seeding.seed_table(Blog, blog_list)
