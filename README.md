@@ -47,3 +47,18 @@ FORMSET прописывается в контроллере
 + ``product.views.ProductDetailView`` - на уровне представления
 + ``product.services.get_object_list_from_cache`` - запросы списка элементов модели
 + ``libs.env.env()`` - функция чтения конфигурационного файла .env
+
+#### Страницы
++ ![товары](/readme/product.png)
+##### Страница товара
++ ![товар - страница](/readme/product_detail.png)
+##### Обновление товара
++ ![товар - обновление](/readme/product_update.png)
+##### Блоги
++ ![блоги](/readme/blogs.png)
+##### Страница товара
++ ![страница блога](/readme/blog_detail.png)
+##### Категории
++ ![блоги](/readme/categories.png)
+##### Профиль пользователя
++ ![блоги](/readme/user_profile.png)
