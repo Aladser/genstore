@@ -9,6 +9,7 @@ FORMSET прописывается в контроллере
 + создание групп пользователей - ``python manage.py user_groups``
 + ```
   docker run -d --network=genstore --name=postgres -p5432:5432 -e POSTGRES_DB=genstore -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=ПАРОЛЬ postgres
+  docker build . -t genstore-app
   ```
 
 #### Приложения
