@@ -8,7 +8,7 @@ load_dotenv(BASE_DIR / '.env')
 SECRET_KEY = 'django-insecure-00=!dj@(x7i%06fg(fq96!&-cywb3g_ui&$k+c%0d$8qn$5q+n'
 DEBUG = os.getenv('DEBUG') == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -62,9 +62,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': os.getenv('DB_NAME'),
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': os.getenv('DB_HOST'),
+        'USER': os.getenv('POSTGRES_USER'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+        'HOST': "postgres",
         'POST': os.getenv('DB_PORT')
     }
 }

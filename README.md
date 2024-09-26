@@ -8,8 +8,10 @@ FORMSET прописывается в контроллере
 + создание суперпользователя - ``python manage.py createadmin``
 + создание групп пользователей - ``python manage.py user_groups``
 + ```
-  docker run -d --network=genstore --name=postgres -p5432:5432 -e POSTGRES_DB=genstore -e POSTGRES_USER=admin -e POSTGRES_PASSWORD=ПАРОЛЬ postgres
+  docker network create genstore
+  docker run -d --network=genstore --name=postgres -p 5432:5432 -e POSTGRES_DB=genstore -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=Database_1821 postgres
   docker build . -t genstore-app
+  docker run -it --network=genstore -p 8080:8080 -d genstore-app
   ```
 
 #### Приложения
