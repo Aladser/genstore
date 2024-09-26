@@ -22,7 +22,7 @@ class Command(BaseCommand):
             'is_staff': True
         }
     ]
-    password = '__strongpassword__'
+    password = '_strongpassword_'
 
     def handle(self, *args, **kwargs):
         Seeding.seed_table(Country, self.country_obj_list)
