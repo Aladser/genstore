@@ -6,7 +6,7 @@ APP_NAME = 'GenStore'
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / '.env')
 SECRET_KEY = 'django-insecure-00=!dj@(x7i%06fg(fq96!&-cywb3g_ui&$k+c%0d$8qn$5q+n'
-DEBUG = os.getenv('DEBUG') == 'True'
+DEBUG = os.getenv('DEBUG')
 
 ALLOWED_HOSTS = ['*']
 
@@ -120,7 +120,7 @@ AUTH_USER_MODEL = "authen.User"
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
-CACHED_ENABLED = False
+CACHED_ENABLED = os.getenv('CACHED_ENABLED')
 CACHED_TIME = 180
 if CACHED_ENABLED:
     CACHES = {

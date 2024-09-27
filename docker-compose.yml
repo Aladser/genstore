@@ -1,5 +1,11 @@
 version: '3'
 services:
+  redis:
+    image: redis:latest
+    restart: on-failure
+    expose:
+      - "6379"
+
   db:
     image: postgres:16-alpine
     restart: on-failure
@@ -14,9 +20,12 @@ services:
       interval: 10s
       retries: 5
       timeout: 3s
+
   app:
     build: .
     tty: true
+    env_file:
+      - .env
     ports:
       - "8000:8000"
     command: sh -c  "python manage.py migrate && python manage.py createadmin && python manage.py user_groups && python manage.py seed && python manage.py runserver 0.0.0.0:8000"
