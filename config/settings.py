@@ -6,7 +6,7 @@ APP_NAME = 'GenStore'
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / '.env')
 SECRET_KEY = 'django-insecure-00=!dj@(x7i%06fg(fq96!&-cywb3g_ui&$k+c%0d$8qn$5q+n'
-DEBUG = os.getenv('DEBUG') == 'True'
+DEBUG = os.getenv('DEBUG') if os.getenv('DEBUG') else True
 
 ALLOWED_HOSTS = []
 
