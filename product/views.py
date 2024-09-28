@@ -28,8 +28,8 @@ class ProductListView(ListView):
     }
 
     def get_queryset(self, *args, **kwargs):
+        # кэш или бд
         queryset = get_object_list_from_cache(self.model, 'product_list')
-        print(queryset)
         if isinstance(self.request.user, AnonymousUser):
             # анонимы
             return queryset.filter(is_published=True).order_by('-updated_at')

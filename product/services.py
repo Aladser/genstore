@@ -8,7 +8,6 @@ def get_object_list_from_cache(model, key_name: str):
     """
 
     object_list = cache.get(key_name)
-    print(object_list)
     if object_list is None:
         object_list = model.objects.all()
         cache.set(key_name, object_list)
