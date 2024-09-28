@@ -8,7 +8,7 @@ load_dotenv(BASE_DIR / '.env')
 SECRET_KEY = 'django-insecure-00=!dj@(x7i%06fg(fq96!&-cywb3g_ui&$k+c%0d$8qn$5q+n'
 DEBUG = os.getenv('DEBUG')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['genstore.local']
 
 # Application definition
 
