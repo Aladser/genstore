@@ -1,0 +1,14 @@
+[Unit]
+Description=Genstore daemon
+After=network.target
+
+[Service]
+User=aladser
+Group=www-data
+Restart=on-failure
+WorkingDirectory=/var/www/genstore/
+ExecStart=/var/www/genstore/venv/bin/gunicorn --access-logfile - --workers 3 --bind unix:/var/www/genstore/genstore.sock config.wsgi
+
+[Install]
+WantedBy=multi-user.target
+

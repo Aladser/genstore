@@ -7,6 +7,9 @@ FORMSET прописывается в контроллере
 + заполнение БД - ``python manage.py seed``
 + создание суперпользователя - ``python manage.py createadmin``
 + создание групп пользователей - ``python manage.py user_groups``
++ демон */install/genstore.service* разместить в */etc/systemd/system/*
++ запуск демона - ``systemctl start genstore``
++ конфиг nginx */install/genstore* разместить в */etc/nginx/sites-available/* 
 
 #### Приложения
 + ``authen`` - пользователи

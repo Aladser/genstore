@@ -1,0 +1,20 @@
+server {
+    listen 80;
+    server_name genstore.local;
+
+    location = /favicon.ico {access_log off; log_not_found off; }
+    location /static/ { 
+	root /var/www/genstore;
+    }
+
+    location /media/ {
+	root /var/www/genstore;
+    }
+
+    location / {
+	include proxy_params;
+	proxy_pass http://unix:/var/www/genstore/genstore.sock;
+    }
+
+}
+
