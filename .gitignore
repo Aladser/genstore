@@ -4,3 +4,4 @@
 **/__pycache__/**
 access.log
 error.log
+static/admin

@@ -94,9 +94,11 @@ USE_TZ = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# --- СТАТИКА ---
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    BASE_DIR / 'static'
+    BASE_DIR / 'static',
+    BASE_DIR / 'venv/lib/python3.12/site-packages/django/contrib/admin',
 ]
 
 MEDIA_URL = '/media/'
