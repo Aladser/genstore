@@ -10,6 +10,7 @@ FORMSET прописывается в контроллере
 + демон */install/genstore.service* разместить в */etc/systemd/system/*
 + запуск демона - ``systemctl start genstore``
 + конфиг nginx */install/genstore* разместить в */etc/nginx/sites-available/* 
++ ``python manage.py collectstatic``
 
 #### Приложения
 + ``authen`` - пользователи
