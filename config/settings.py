@@ -10,8 +10,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['genstore.local', '127.0.0.1']
 
-# Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -87,19 +85,16 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# --- СТАТИКА ---
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'static'
+
 LANGUAGE_CODE = 'ru-Ru'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# --- СТАТИКА ---
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    BASE_DIR / 'static',
-    BASE_DIR / 'venv/lib/python3.12/site-packages/django/contrib/admin',
-]
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
